@@ -1,5 +1,5 @@
 import { LeaderService } from '@/app/services/leader.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -19,7 +19,7 @@ import {
   MatToolbarModule,
   MatFormFieldModule,
   MatInputModule,
-  MatCheckboxModule,
+  MatCheckboxModule, MatSelectModule, MatSlideToggleModule,
 } from '@angular/material';
 
 import { MenuComponent } from './menu/menu.component';
@@ -63,6 +63,9 @@ import { LoginComponent } from './login/login.component';
     MatInputModule,
     MatCheckboxModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatSlideToggleModule,
   ],
   providers: [
     DishService,
