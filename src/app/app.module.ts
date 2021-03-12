@@ -19,7 +19,7 @@ import {
   MatToolbarModule,
   MatFormFieldModule,
   MatInputModule,
-  MatCheckboxModule, MatSelectModule, MatSlideToggleModule,
+  MatCheckboxModule, MatSelectModule, MatSlideToggleModule, MatProgressSpinnerModule,
 } from '@angular/material';
 
 import { MenuComponent } from './menu/menu.component';
@@ -66,6 +66,7 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     DishService,

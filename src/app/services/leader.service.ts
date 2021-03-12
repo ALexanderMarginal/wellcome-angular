@@ -1,3 +1,4 @@
+import { DISHES } from '@/app/shared/dishes';
 import { Leader } from '@/app/shared/leader';
 import { LEADERS } from '@/app/shared/leaders';
 import { Injectable } from '@angular/core';
@@ -10,14 +11,20 @@ export class LeaderService {
   constructor() { }
 
   getLeaders(): Promise<Leader[]> {
-    return Promise.resolve(LEADERS);
+    return new Promise(resolve => {
+      setTimeout(() => resolve(LEADERS), 2000);
+    });
   }
 
   getLeaderItem(id: string): Promise<Leader> {
-    return Promise.resolve(LEADERS.find(leader => leader.id === id));
+    return new Promise(resolve => {
+      setTimeout(() => resolve(LEADERS.find(leader => leader.id === id)), 2000);
+    });
   }
 
   getFeaturedLeader(): Promise<Leader> {
-    return Promise.resolve(LEADERS.find(leader => leader.featured));
+    return new Promise(resolve => {
+      setTimeout(() => resolve(LEADERS.find(leader => leader.featured)), 2000);
+    });
   }
 }
