@@ -23,6 +23,34 @@ export class ContactComponent implements OnInit {
   contactType: string[] = CONTACT_TYPES;
   @ViewChild('fform') feedbackFormDirective;
 
+  formErrors = {
+    firstname: '',
+    lastname: '',
+    telNumber: '',
+    email: '',
+  };
+
+  validationMessages = {
+    firstname: {
+      required: 'First Name is required.',
+      minlength: 'First Name must be at least 2 characters long.',
+      maxlength: 'FirstName cannot be more than 25 characters long.'
+    },
+    lastname: {
+      required: 'Last Name is required.',
+      minlength: 'Last Name must be at least 2 characters long.',
+      maxlength: 'Last Name cannot be more than 25 characters long.'
+    },
+    telNumber: {
+      required: 'Tel. number is required.',
+      pattern: 'Tel. number must contain only numbers.'
+    },
+    email: {
+      required: 'Email is required.',
+      email: 'Email not in valid format.'
+    },
+  };
+
   constructor(
     private fb: FormBuilder,
   ) {
@@ -34,14 +62,53 @@ export class ContactComponent implements OnInit {
 
   createForm() {
     this.feedbackForm = this.fb.group({
-      firstname: [FEEDBACK_FORM_DEFAULT.firstname, Validators.required],
-      lastname: [FEEDBACK_FORM_DEFAULT.lastname, Validators.required],
-      telNumber: [FEEDBACK_FORM_DEFAULT.telNumber, Validators.required],
-      email: [FEEDBACK_FORM_DEFAULT.email, Validators.required],
+      firstname: [FEEDBACK_FORM_DEFAULT.firstname, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(25),
+      ]],
+      lastname: [FEEDBACK_FORM_DEFAULT.lastname, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(25),
+      ]],
+      telNumber: [FEEDBACK_FORM_DEFAULT.telNumber, [
+        Validators.required,
+        Validators.pattern,
+      ]],
+      email: [FEEDBACK_FORM_DEFAULT.email, [
+        Validators.required,
+        Validators.email
+      ]],
       agree: FEEDBACK_FORM_DEFAULT.agree,
       contactType: FEEDBACK_FORM_DEFAULT.contactType,
       message: FEEDBACK_FORM_DEFAULT.message,
     });
+
+    this.feedbackForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged();
+  }
+
+  onValueChanged(data?: any) {
+    console.log(data);
+    if (!this.feedbackForm) {
+      return;
+    }
+    const form = this.feedbackForm;
+    for (const field in this.formErrors) {
+      if (this.formErrors.hasOwnProperty(field)) {
+        this.formErrors[field] = '';
+        const control = form.get(field);
+        if (control && control.dirty && !control.valid) {
+          const messages = this.validationMessages[field];
+          for (const errorsKey in control.errors) {
+            if (control.errors.hasOwnProperty(errorsKey)) {
+              this.formErrors[field] += messages[errorsKey];
+            }
+          }
+        }
+      }
+    }
   }
 
   onSubmit() {
